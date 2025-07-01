@@ -12,7 +12,7 @@ export async function middleware(request) {
 
   if (!token) {
     if (currentPath !== "/login") {
-      console.log(request.nextUrl.origin, request.url,"url");
+      // console.log(request.nextUrl.origin, request.url,"url");
       return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
     }
     return NextResponse.next();
@@ -23,7 +23,7 @@ export async function middleware(request) {
 
     // 2. If already logged in and trying to access /login, redirect away
     if (currentPath === "/login") {
-      console.log(request.nextUrl.origin, request.url,"url");
+      // console.log(request.nextUrl.origin, request.url,"url");
       return NextResponse.redirect(new URL("/diary", request.nextUrl.origin));
     }
 

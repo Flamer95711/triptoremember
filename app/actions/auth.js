@@ -6,6 +6,7 @@ const url = process.env.API_URL;
 export async function loginAction(prevState, formData) {
   const username = formData.get("username");
   const password = formData.get("password");
+  console.log(url,"url")
   const response = await fetch(`${url}/login`, {
     method: "POST",
     body: JSON.stringify({ username, password }),
