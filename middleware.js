@@ -10,10 +10,10 @@ export async function middleware(request) {
 
   const currentPath = request.nextUrl.pathname;
 
-  // 1. If no token, redirect to login (except if already on /login)
   if (!token) {
     if (currentPath !== "/login") {
-      return NextResponse.redirect(new URL("/login", request.url));
+      console.log(request.nextUrl.origin, request.url,"url");
+      return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
     }
     return NextResponse.next();
   }
@@ -23,7 +23,8 @@ export async function middleware(request) {
 
     // 2. If already logged in and trying to access /login, redirect away
     if (currentPath === "/login") {
-      return NextResponse.redirect(new URL("/diary", request.url));
+      console.log(request.nextUrl.origin, request.url,"url");
+      return NextResponse.redirect(new URL("/diary", request.nextUrl.origin));
     }
 
     // 3. Add user-id header and allow request to proceed
@@ -39,7 +40,7 @@ export async function middleware(request) {
     console.error("JWT error:", err);
 
     // Token is invalid → redirect to login
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
   }
 }
 
