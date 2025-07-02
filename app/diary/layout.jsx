@@ -38,6 +38,7 @@ export default function DiaryLayout({ children }) {
             {/* User Actions */}
             <div className="flex items-center space-x-4">
               {/* Logout Button */}
+              
               <LogoutButton />
             </div>
           </div>

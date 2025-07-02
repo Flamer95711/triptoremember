@@ -1,18 +1,16 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { ArrowLeft, MapPin, Calendar, User, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, MapPin, Calendar, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useDiary } from "@/app/contexts/AppContext";
-import {use} from 'react'
+import { use } from "react";
 
 const DiaryEntryPage = ({ params }) => {
   const diarySlug = use(params);
   const { diary } = useDiary();
-  const diaryEntry = diary.find((item)=>diarySlug.diarySlug===item.slug)
-  
-  
-  
+  const diaryEntry = diary.find((item) => diarySlug.diarySlug === item.slug);
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       weekday: "long",
@@ -31,6 +29,18 @@ const DiaryEntryPage = ({ params }) => {
     });
   };
 
+  if (!diaryEntry) {
+    return (
+      <div className="text-center py-20 text-gray-500">
+        <h1 className="text-2xl font-semibold">Diary Entry Not Found</h1>
+        <p className="mt-2">Please check the URL or go back to the diary list.</p>
+        <Link href="/diary" className="text-blue-600 underline mt-4 inline-block">
+          ← Back to Diary
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
@@ -48,14 +58,13 @@ const DiaryEntryPage = ({ params }) => {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Entry Card */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          {/* Cover Image Section */}
+          {/* Cover Image */}
           <div className="relative h-64 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
-            {diaryEntry.coverImage ? (
+            {diaryEntry?.coverImage ? (
               <Image
                 src={diaryEntry.coverImage}
-                alt={diaryEntry.title}
+                alt={diaryEntry?.title ?? "Cover image"}
                 fill
                 className="object-cover"
               />
@@ -84,12 +93,12 @@ const DiaryEntryPage = ({ params }) => {
             <div className="absolute top-4 right-4">
               <div
                 className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                  diaryEntry.isPublic
+                  diaryEntry?.isPublic
                     ? "bg-green-100 text-green-800"
                     : "bg-red-100 text-red-800"
                 }`}
               >
-                {diaryEntry.isPublic ? (
+                {diaryEntry?.isPublic ? (
                   <>
                     <Eye className="w-4 h-4 mr-1" />
                     Public
@@ -106,52 +115,44 @@ const DiaryEntryPage = ({ params }) => {
 
           {/* Content Section */}
           <div className="p-8">
-            {/* Title */}
             <h1 className="text-4xl font-bold text-gray-900 mb-6">
-              {diaryEntry.title}
+              {diaryEntry?.title}
             </h1>
 
-            {/* Meta Information */}
             <div className="flex flex-wrap gap-6 mb-8 text-gray-600">
               <div className="flex items-center">
                 <Calendar className="w-5 h-5 mr-2 text-blue-500" />
                 <span className="font-medium">
-                  {formatDate(diaryEntry.createdAt)}
+                  {diaryEntry?.createdAt && formatDate(diaryEntry.createdAt)}
                 </span>
               </div>
 
               <div className="flex items-center">
                 <MapPin className="w-5 h-5 mr-2 text-red-500" />
-                <span className="font-medium">{diaryEntry.location}</span>
+                <span className="font-medium">{diaryEntry?.location}</span>
               </div>
-
-              {/* <div className="flex items-center">
-                <User className="w-5 h-5 mr-2 text-green-500" />
-                <span className="font-medium text-xs">{diaryEntry.authorId.slice(0, 8)}...</span>
-              </div> */}
             </div>
 
-            {/* Content */}
             <div className="prose max-w-none">
               <div className="bg-gray-50 rounded-xl p-6 border-l-4 border-blue-500">
                 <p className="text-lg text-gray-800 leading-relaxed whitespace-pre-wrap">
-                  {diaryEntry.content}
+                  {diaryEntry?.content}
                 </p>
               </div>
             </div>
 
-            {/* Weather Section (if available) */}
-            {diaryEntry.weatherAtTime && (
+            {/* Weather Section */}
+            {diaryEntry?.weatherAtTime && (
               <div className="mt-8 bg-blue-50 rounded-xl p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
                   Weather at Time
                 </h3>
-                <p className="text-gray-700">{diaryEntry.weatherAtTime}</p>
+                <p className="text-gray-700">{diaryEntry?.weatherAtTime}</p>
               </div>
             )}
 
             {/* Images Section */}
-            {diaryEntry.images && diaryEntry.images.length > 0 && (
+            {diaryEntry?.images?.length > 0 && (
               <div className="mt-8">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">
                   Images
@@ -173,14 +174,6 @@ const DiaryEntryPage = ({ params }) => {
                 </div>
               </div>
             )}
-
-            {/* Footer */}
-            {/* <div className="mt-12 pt-6 border-t border-gray-200">
-              <div className="flex justify-between items-center text-sm text-gray-500">
-                <span>Entry ID: {diaryEntry.id}</span>
-                <span>Created at {formatTime(diaryEntry.createdAt)}</span>
-              </div>
-            </div> */}
           </div>
         </div>
 

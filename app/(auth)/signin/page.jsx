@@ -2,10 +2,14 @@
 
 import { useActionState } from "react";
 import { signinAction } from "@/app/actions/auth";
+import { redirect } from "next/navigation";
 
 export default function SignupPage() {
   const initialState = { success: false, error: null };
   const [state, formAction] = useActionState(signinAction, initialState);
+  if(state.success){
+    redirect("/diary")
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">

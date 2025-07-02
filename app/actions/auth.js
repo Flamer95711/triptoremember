@@ -13,7 +13,7 @@ export async function loginAction(prevState, formData) {
       method: "POST",
       body: JSON.stringify({ username, password }),
     });
-    if (!response) {
+    if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(
         errorData.message || "Something went wrong during sign-in"
@@ -21,22 +21,28 @@ export async function loginAction(prevState, formData) {
     }
     const data = await response.json();
     const token = data.token;
-    const cookieStore = await cookies();
-    cookieStore.set({
-      name: "token",
-      value: token,
-      httpOnly: true,
-      maxAge: 60 * 60,
-    });
+    if (token) {
+      const cookieStore = await cookies();
+      cookieStore.set({
+        name: "token",
+        value: token,
+        httpOnly: true,
+        maxAge: 60 * 60,
+      });
+    }
 
     if (data.status == "success") {
       return { success: true };
     } else {
       return {
+        success: false,
         error: data.message,
       };
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error("Sign-in error:", error);
+    return { error: error.message || "Unexpected error during sign-in" };
+  }
 }
 
 export async function signinAction(prevState, formData) {
@@ -88,9 +94,9 @@ export async function logoutAction() {
   try {
     const cookieStore = cookies();
     cookieStore.delete("token");
-    return {success:true,error:null}
+    return { success: true, error: null };
   } catch (error) {
     console.error(error);
-    return { success:false,error:error};
+    return { success: false, error: error };
   }
 }
