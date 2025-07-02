@@ -19,7 +19,6 @@ const DataListPage = () => {
     try {
       const response = await fetch(URL);
       const data = await response.json();
-      console.log(response, URL, "url");
 
       setDiary(data.data);
       return;
@@ -36,7 +35,16 @@ const DataListPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Data List</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Data List</h1>
+
+          <Link
+            href="/diary/create"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition-all duration-200"
+          >
+            + Add New
+          </Link>
+        </div>
 
         <div className="space-y-4 ">
           {!diary || diary.length === 0 ? (

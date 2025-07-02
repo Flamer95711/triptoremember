@@ -9,13 +9,12 @@ export default function LoginPage() {
   const initialState = { success: false, error: null };
   const [state, formAction] = useActionState(loginAction, initialState);
 
-
   // const handleRedirect = useCallback(() => {
   //   router.push('/');
   // }, [router]);
 
   if (state.success) {
-    redirect('/diary')
+    redirect("/diary");
   }
 
   return (
@@ -59,7 +58,7 @@ export default function LoginPage() {
                   name="username"
                   placeholder="Enter your username"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white text-black"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white !text-black !text-opacity-100"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg
@@ -93,7 +92,7 @@ export default function LoginPage() {
                   name="password"
                   placeholder="Enter your password"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white text-black"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white !text-black !text-opacity-100"
                 />
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg

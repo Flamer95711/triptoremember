@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 
 const salt = 10;
 const secret = process.env.JWT_SECRET;

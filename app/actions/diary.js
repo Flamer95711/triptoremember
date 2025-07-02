@@ -10,7 +10,7 @@ export async function diaryCreationAction(prevState, formData) {
   const content = formData.get("content");
   const location = formData.get("location");
   const coverImage = formData.get("coverImage");
-  const images = formData.get("images")||[];
+  const imagesList = formData.get("images") || [];
   const weatherAtTime = formData.get("weatherAtTime");
   const temperature = formData.get("temperature");
   const isPublicRaw = formData.get("isPublic");
@@ -21,22 +21,22 @@ export async function diaryCreationAction(prevState, formData) {
     strict: true,
     remove: /[*+~.()'"!:@]/g,
   });
+  const images = imagesList
+    .split(",") 
+    .map((s) => s.trim()) 
+    .filter(Boolean);
 
   const timestamp = Date.now();
   const slug = `${baseSlug}-${timestamp}`;
 
-  // ✅ Read token from the server-side cookie store
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
   try {
-    console.log("###url ", `${url}/create`);
-
     const diaryEntry = await fetch(`${url}/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // ✅ Manually send the cookie
         Cookie: `token=${token}`,
       },
       body: JSON.stringify({

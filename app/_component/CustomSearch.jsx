@@ -3,7 +3,6 @@ import React from 'react';
 import { Select, Input } from 'antd';
 
 const CustomSearch = ({ isDropDown, options = [], placeholder = 'Search' }) => {
-    console.log(placeholder,"placeholder");
     
   return (
 

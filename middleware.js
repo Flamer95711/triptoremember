@@ -9,10 +9,9 @@ export async function middleware(request) {
   const token = storeCookie.get("token");
 
   const currentPath = request.nextUrl.pathname;
-
   if (!token) {
-    if (currentPath !== "/login") {
-      // console.log(request.nextUrl.origin, request.url,"url");
+    if (currentPath !== "/login" && currentPath !== "/signin") {
+
       return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
     }
     return NextResponse.next();
@@ -20,17 +19,12 @@ export async function middleware(request) {
 
   try {
     const { payload } = await jwtVerify(token.value, secret);
-
-    // 2. If already logged in and trying to access /login, redirect away
-    if (currentPath === "/login") {
-      // console.log(request.nextUrl.origin, request.url,"url");
+    
+    if (currentPath === "/login" || currentPath === "/signin" ) {
       return NextResponse.redirect(new URL("/diary", request.nextUrl.origin));
     }
-
-    // 3. Add user-id header and allow request to proceed
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("user-id", payload.userId);
-
     return NextResponse.next({
       request: {
         headers: requestHeaders,
@@ -38,12 +32,10 @@ export async function middleware(request) {
     });
   } catch (err) {
     console.error("JWT error:", err);
-
-    // Token is invalid → redirect to login
     return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
   }
 }
 
 export const config = {
-  matcher: ["/api/users", "/", "/api/diary/:path*", "/diary/:path*", "/login"],
+  matcher: ["/api/users", "/", "/api/diary/:path*", "/diary/:path*", "/login" , "/signin"],
 };

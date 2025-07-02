@@ -10,8 +10,6 @@ const DiaryEntryPage = ({ params }) => {
   const diarySlug = use(params);
   const { diary } = useDiary();
   const diaryEntry = diary.find((item)=>diarySlug.diarySlug===item.slug)
-  console.log(diarySlug.diarySlug);
-  console.log(diary);
   
   
   
