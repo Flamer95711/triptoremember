@@ -1,9 +1,12 @@
 import React from "react";
-import { logoutAction } from "../actions/auth";
 import LogoutButton from "../_component/LogoutButton";
 import Link from "next/link";
+import { DiaryProvider } from "../contexts/AppContext";
+import { getUserById } from "../functions/function";
+import OpenProfileButton from "../_component/OpenUserButton";
 
-export default function DiaryLayout({ children }) {
+export default async function DiaryLayout({ children, modal }) {
+  const user = await getUserById();
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Stylish Navbar */}
@@ -38,7 +41,7 @@ export default function DiaryLayout({ children }) {
             {/* User Actions */}
             <div className="flex items-center space-x-4">
               {/* Logout Button */}
-              
+              <OpenProfileButton {...user}/>
               <LogoutButton />
             </div>
           </div>
@@ -48,7 +51,12 @@ export default function DiaryLayout({ children }) {
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-          <div className="p-6">{children}</div>
+          <div className="p-6">
+            <DiaryProvider user={user}>
+              {children}
+              {modal}
+            </DiaryProvider>
+          </div>
         </div>
       </div>
     </div>

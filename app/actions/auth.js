@@ -94,9 +94,11 @@ export async function logoutAction() {
   try {
     const cookieStore = cookies();
     cookieStore.delete("token");
-    return { success: true, error: null };
   } catch (error) {
     console.error(error);
     return { success: false, error: error };
   }
+  
+  // Redirect after successful logout
+  redirect('/login');
 }

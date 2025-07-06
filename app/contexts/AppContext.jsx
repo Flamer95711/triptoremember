@@ -3,11 +3,11 @@ import { createContext, useContext, useState } from "react";
 
 const DiaryContext = createContext();
 
-const DiaryProvider = ({ children }) => {
+const DiaryProvider = ({ children , user }) => {
   const [diary, setDiary] = useState([]);
 
   return (
-    <DiaryContext.Provider value={{ diary, setDiary }}>
+    <DiaryContext.Provider value={{ diary, setDiary ,user }}>
       {children}
     </DiaryContext.Provider>
   );

@@ -11,7 +11,6 @@ export async function middleware(request) {
   const currentPath = request.nextUrl.pathname;
   if (!token) {
     if (currentPath !== "/login" && currentPath !== "/signin") {
-
       return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
     }
     return NextResponse.next();

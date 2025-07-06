@@ -7,7 +7,7 @@ import NoComponentFound from "../_component/NoComponentFound";
 const URL = process.env.NEXT_PUBLIC_DAIRY_API_URL;
 
 const DataListPage = () => {
-  const { diary, setDiary } = useDiary();
+  const { diary, setDiary , user} = useDiary();
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -32,6 +32,7 @@ const DataListPage = () => {
       fetchDiary();
     }
   }, []);
+  
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">

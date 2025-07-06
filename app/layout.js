@@ -1,22 +1,20 @@
-import { DiaryProvider } from './contexts/AppContext'
-import './globals.css'
-import ThemeProvider from './providers/ThemeProvider'
+
+import "./globals.css";
+import ThemeProvider from "./providers/ThemeProvider";
 
 export const metadata = {
-  title: 'Next.js + Ant Design',
-  description: 'Next.js with Ant Design',
-}
+  title: "trip to Remember",
+  description: "Diary for you memorable trip",
+};
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <DiaryProvider>
         <ThemeProvider>
           {children}
         </ThemeProvider>
-        </DiaryProvider>
       </body>
     </html>
-  )
+  );
 }
