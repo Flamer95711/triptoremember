@@ -4,6 +4,7 @@ import Link from "next/link";
 import { DiaryProvider } from "../contexts/AppContext";
 import { getUserById } from "../functions/function";
 import OpenProfileButton from "../_component/OpenUserButton";
+export const dynamic = "force-dynamic";
 
 export default async function DiaryLayout({ children, modal }) {
   const user = await getUserById();
